@@ -1,0 +1,9 @@
+# newSpadesSite
+
+This will be the developer blog with integrated user platform of newSpades.
+
+http://github.com/HendrikF/newSpades
+
+## LICENSE
+
+This repository is licensed under the terms of the GPLv3. See `LICENSE.md` for details.
