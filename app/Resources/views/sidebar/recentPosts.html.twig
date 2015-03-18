@@ -1,0 +1,22 @@
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title">Recent Blog Posts <span class="glyphicon glyphicon-blackboard pull-right" aria-hidden="true"></span></h3>
+    </div>
+    <div class="list-group">
+      {% for post in posts %}
+        <a href="{{ path('blog-post', {slug: post.slug}) }}" class="list-group-item">
+            <h4 class="list-group-item-heading">{{ post.title }}</h4>
+            <p class="list-group-item-text">
+                {{ post.content|markdown|striptags|slice(0, 200) }}...
+            </p>
+        </a>
+      {% else %}
+        <span class="list-group-item disabled">
+            <h4 class="list-group-item-heading"><em>Nothing to show</em></h4>
+            <p class="list-group-item-text">
+                <em>There are no blog posts.</em>
+            </p>
+        </span>
+      {% endfor %}
+    </div>
+</div>

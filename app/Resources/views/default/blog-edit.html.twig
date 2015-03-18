@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+
+{{ form_start(form) }}
+  {{ form_errors(form) }}
+  <div class="form-group">
+    {{ form_errors(form.slug) }}
+    {{ form_label(form.slug) }}
+    {{ form_widget(form.slug) }}
+  </div>
+  <div class="form-group">
+    {{ form_errors(form.title) }}
+    {{ form_label(form.title) }}
+    {{ form_widget(form.title) }}
+  </div>
+  <div class="form-group">
+    {{ form_errors(form.published) }}
+    {{ form_label(form.published) }}
+    {{ form_widget(form.published) }}
+  </div>
+  <div class="form-group">
+    {{ form_errors(form.content) }}
+    {{ form_label(form.content) }}
+    {{ form_widget(form.content) }}
+  </div>
+  <div class="form-group">
+    {{ form_widget(form.save) }}
+  </div>
+{{ form_end(form) }}
+
+{% endblock %}
