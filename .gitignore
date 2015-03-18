@@ -2,6 +2,8 @@
 !/app/config
 /app/config/parameters.yml
 
+!/app/Resources
+
 /bin/
 /composer.phar
 /vendor/
