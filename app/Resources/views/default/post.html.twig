@@ -3,7 +3,7 @@
 {% block content %}
 
 <h2>{{ post.title }}</h2>
-<p class="blog-post-meta">Published on {{ post.published|date('l, jS F Y') }}</p>
+<p class="blog-post-meta">Published by {{ post.author.username }} on {{ post.published|date('l, jS F Y') }}</p>
 {{ post.content|markdown }}
 <p>
   {% if post.tags is not empty %}

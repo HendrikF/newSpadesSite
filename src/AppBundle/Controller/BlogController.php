@@ -4,7 +4,7 @@ namespace AppBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
 
 use AppBundle\Entity\Post;
@@ -35,15 +35,16 @@ class BlogController extends Controller
         ));
     }
     /**
-     * @Route("/blog/edit/{slug}", name="blog-edit", defaults={"slug" = "new"})
+     * @Route("/blog/edit/{slug}", name="blog-edit", defaults={"slug" = ""})
+     * @Security("has_role('ROLE_ADMIN')")
      */
     public function editAction(Request $request, $slug)
     {
-        if($slug == 'new') {
-            $title = 'Blogpost erstellen';
+        if($slug == '') {
+            $title = 'Create blog post';
             $post = new Post();
         } else {
-            $title = 'Blogpost bearbeiten';
+            $title = 'Edit blog post';
             $post = $this->getDoctrine()
                 ->getRepository('AppBundle:Post')
                 ->findOneBySlug($slug);
@@ -77,6 +78,7 @@ class BlogController extends Controller
             'title' => $title,
             'navi' => 'blog',
             'form' => $form->createView(),
+            'user' => $this->getUser()
         ));
     }
     /**
