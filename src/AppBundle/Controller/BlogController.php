@@ -6,41 +6,70 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 
 use AppBundle\Entity\Post;
 
 class BlogController extends Controller
 {
     /**
-     * @Route("/", name="blog")
+     * @Route("/{page}", name="blog", defaults={"page" = 1}, requirements={"page": "\d+"})
      */
-    public function indexAction()
+    public function indexAction($page)
     {
-        $query = $this
-            ->getDoctrine()
-            ->getManager()
-            ->createQuery(
-                'SELECT p
-                FROM AppBundle:Post p
-                ORDER BY p.published DESC'
-            );
-            #->setFirstResult(0)
-            #->setMaxResults(5);
-        $posts = $query->getResult();
+        $pageSize = 10;
+        $padding = 3;
         
-        return $this->render('default/posts.html.twig', array(
+        $query = $this->getDoctrine()
+            ->getRepository('AppBundle:Post')
+            ->createQueryBuilder('p')
+            ->select('p, t')
+            ->leftJoin('p.tags', 't')
+            ->orderBy('p.published', 'DESC')
+            ->getQuery();
+        
+        $posts = new Paginator($query);
+        
+        $posts->getQuery()
+            ->setFirstResult($pageSize * ($page - 1))
+            ->setMaxResults($pageSize);
+        
+        $total = count($posts);
+        $pageCount = ceil($total / $pageSize);
+        
+        if($page > $pageCount) {
+            throw $this->createNotFoundException(
+                'Sorry, we do not have that many posts.'
+            );
+        }
+        
+        $prev = ($page > 1);
+        $next = ($page < $pageCount);
+        $pages = array();
+        
+        for($i = $page-$padding; $i <= $page+$padding; $i++) {
+            if($i >= 1 and $i <= $pageCount) {
+                $pages[] = $i;
+            }
+        }
+        
+        return $this->render('default/home.html.twig', array(
             'title' => 'Blog',
             'navi' => 'blog',
-            'posts' => $posts
+            'posts' => $posts,
+            'prev' => $prev,
+            'next' => $next,
+            'page' => $page,
+            'pages' => $pages
         ));
     }
     /**
-     * @Route("/blog/edit/{slug}", name="blog-edit", defaults={"slug" = ""})
+     * @Route("/blog/edit/{slug}", name="blog-edit")
      * @Security("has_role('ROLE_ADMIN')")
      */
-    public function editAction(Request $request, $slug)
+    public function editAction(Request $request, $slug = null)
     {
-        if($slug == '') {
+        if($slug == null) {
             $title = 'Create blog post';
             $post = new Post();
         } else {
@@ -50,7 +79,7 @@ class BlogController extends Controller
                 ->findOneBySlug($slug);
             if(!$post) {
                 throw $this->createNotFoundException(
-                    'Sorry, I cannot find the requested post.'
+                    'Sorry, I can not find the requested post.'
                 );
             }
         }
@@ -77,29 +106,66 @@ class BlogController extends Controller
         return $this->render('default/blog-edit.html.twig', array(
             'title' => $title,
             'navi' => 'blog',
-            'form' => $form->createView(),
-            'user' => $this->getUser()
+            'form' => $form->createView()
         ));
     }
     /**
-     * @Route("/tag/{title}", name="tag")
+     * @Route("/tag/{title}/{page}", name="tag", defaults={"page" = 1}, requirements={"page": "\d+"})
      */
-    public function tagAction($title)
+    public function tagAction($title, $page)
     {
-        $tag = $this->getDoctrine()
-            ->getRepository('AppBundle:Tag')
-            ->findOneByTitle($title);
-
-        if(!$tag) {
+        $pageSize = 10;
+        $padding = 3;
+        
+        $query = $this->getDoctrine()
+            ->getRepository('AppBundle:Post')
+            ->createQueryBuilder('p')
+            ->select('t, p')
+            ->leftJoin('p.tags', 't')
+            ->where('t.title = :title')
+            ->setParameter('title', $title)
+            ->orderBy('p.published', 'DESC')
+            ->getQuery();
+        
+        $posts = new Paginator($query);
+        
+        $posts->getQuery()
+            ->setFirstResult($pageSize * ($page - 1))
+            ->setMaxResults($pageSize);
+        
+        $total = count($posts);
+        $pageCount = ceil($total / $pageSize);
+        
+        if(!$total) {
             throw $this->createNotFoundException(
-                'Sorry, I cannot find the requested tag.'
+                'Sorry, we can not find the requested tag.'
             );
         }
         
+        if($page > $pageCount) {
+            throw $this->createNotFoundException(
+                'Sorry, we do not have that many posts.'
+            );
+        }
+        
+        $prev = ($page > 1);
+        $next = ($page < $pageCount);
+        $pages = array();
+        
+        for($i = $page-$padding; $i <= $page+$padding; $i++) {
+            if($i >= 1 and $i <= $pageCount) {
+                $pages[] = $i;
+            }
+        }
+        
         return $this->render('default/posts.html.twig', array(
-            'title' => $tag->getTitle(),
+            'title' => $title,
             'navi' => 'blog',
-            'posts' => $tag->getPosts()
+            'posts' => $posts,
+            'prev' => $prev,
+            'next' => $next,
+            'page' => $page,
+            'pages' => $pages
         ));
     }
     /**
@@ -109,11 +175,17 @@ class BlogController extends Controller
     {
         $post = $this->getDoctrine()
             ->getRepository('AppBundle:Post')
-            ->findOneBySlug($slug);
+            ->createQueryBuilder('p')
+            ->select('p, t')
+            ->leftJoin('p.tags', 't')
+            ->where('p.slug = :slug')
+            ->setParameter('slug', $slug)
+            ->getQuery()
+            ->getOneOrNullResult();
         
         if(!$post) {
             throw $this->createNotFoundException(
-                'Sorry, I cannot find the requested post.'
+                'Sorry, we can not find the requested post.'
             );
         }
         

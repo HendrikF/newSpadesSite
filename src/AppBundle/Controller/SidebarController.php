@@ -9,17 +9,15 @@ class SidebarController extends Controller
 {
     public function recentPostsAction()
     {
-        $query = $this
-            ->getDoctrine()
-            ->getManager()
-            ->createQuery(
-                'SELECT p
-                FROM AppBundle:Post p
-                ORDER BY p.published DESC'
-            )
+        $posts = $this->getDoctrine()
+            ->getRepository('AppBundle:Post')
+            ->createQueryBuilder('p')
+            ->select('p')
+            ->orderBy('p.published', 'DESC')
             ->setFirstResult(0)
-            ->setMaxResults(10);
-        $posts = $query->getResult();
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult();
         
         return $this->render('sidebar/recentPosts.html.twig', array(
             'posts' => $posts
@@ -28,14 +26,14 @@ class SidebarController extends Controller
     
     public function blogTagsAction()
     {
-        $query = $this
-            ->getDoctrine()
-            ->getManager()
-            ->createQuery(
-                'SELECT t
-                FROM AppBundle:Tag t'
-            );
-        $tags = $query->getResult();
+        $tags = $this->getDoctrine()
+            ->getRepository('AppBundle:Tag')
+            ->createQueryBuilder('t')
+            ->select('t, p')
+            ->leftJoin('t.posts', 'p')
+            ->getQuery()
+            ->getResult();
+        
         return $this->render('sidebar/blogTags.html.twig', array(
             'tags' => $tags
         ));
