@@ -38,6 +38,12 @@ class Post
     private $slug;
     
     /**
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="posts")
+     * @ORM\JoinColumn(name="author", referencedColumnName="id")
+     */
+    protected $author;
+    
+    /**
      * @ORM\ManyToMany(targetEntity="Tag", inversedBy="posts")
      * @ORM\JoinTable(name="posts_tags",
      *      joinColumns={@ORM\JoinColumn(name="post_id", referencedColumnName="id")},
@@ -186,5 +192,28 @@ class Post
     public function getSlug()
     {
         return $this->slug;
+    }
+
+    /**
+     * Set author
+     *
+     * @param \AppBundle\Entity\User $author
+     * @return Post
+     */
+    public function setAuthor(\AppBundle\Entity\User $author = null)
+    {
+        $this->author = $author;
+
+        return $this;
+    }
+
+    /**
+     * Get author
+     *
+     * @return \AppBundle\Entity\User 
+     */
+    public function getAuthor()
+    {
+        return $this->author;
     }
 }
