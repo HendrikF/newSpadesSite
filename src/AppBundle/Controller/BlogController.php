@@ -72,6 +72,7 @@ class BlogController extends Controller
         if($slug == null) {
             $title = 'Create blog post';
             $post = new Post();
+            $post->setAuthor($this->getUser());
         } else {
             $title = 'Edit blog post';
             $post = $this->getDoctrine()

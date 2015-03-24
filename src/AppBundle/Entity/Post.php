@@ -33,7 +33,7 @@ class Post
     private $title;
 
     /**
-     * @ORM\Column(name="slug", type="text")
+     * @ORM\Column(name="slug", type="string", unique=true)
      */
     private $slug;
     
