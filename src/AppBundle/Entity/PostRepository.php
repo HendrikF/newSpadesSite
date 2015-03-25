@@ -28,4 +28,17 @@ class PostRepository extends EntityRepository
         ");
         return $query->getSingleScalarResult();
     }
+    
+    public function getPostBySlug($slug)
+    {
+        $query = $this->getEntityManager()->createQuery(
+        "SELECT p, t, a
+        FROM AppBundle:Post p
+        JOIN p.tags t
+        JOIN p.author a
+        WHERE p.slug = :slug
+        ")
+        ->setParameter('slug', $slug);
+        return $query->getOneOrNullResult();
+    }
 }

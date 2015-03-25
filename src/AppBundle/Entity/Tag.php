@@ -18,7 +18,7 @@ class Tag
     private $id;
 
     /**
-     * @ORM\Column(name="title", type="text")
+     * @ORM\Column(name="title", type="string", unique=true)
      */
     private $title;
     

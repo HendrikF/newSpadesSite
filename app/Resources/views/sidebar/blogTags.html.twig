@@ -4,7 +4,7 @@
     </div>
     <div class="list-group">
       {% for tag in tags %}
-        <a href="{{ path('tag', {title: tag.title}) }}" class="list-group-item">{{ tag.title }} <span class="badge">{{ tag.posts|length }}</span></a>
+        <a href="{{ path('tag', {title: tag.title}) }}" class="list-group-item">{{ tag.title }} <span class="badge">{{ tag.postCount }}</span></a>
       {% else %}
         <span class="list-group-item disabled"><em>There are no tags.</em></span>
       {% endfor %}

@@ -9,10 +9,10 @@ class TagRepository extends EntityRepository
     public function getTags()
     {
         $query = $this->getEntityManager()->createQuery(
-        "SELECT t, COUNT(p) AS postCount
+        "SELECT t.title, COUNT(p.id) AS postCount
         FROM AppBundle:Tag t
         JOIN t.posts p
-        GROUP BY p.id
+        GROUP BY t.id
         ");
         return $query->getScalarResult();
     }

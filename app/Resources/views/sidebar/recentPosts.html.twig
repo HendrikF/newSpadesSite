@@ -7,7 +7,7 @@
         <a href="{{ path('blog-post', {slug: post.slug}) }}" class="list-group-item">
             <h4 class="list-group-item-heading">{{ post.title }}</h4>
             <p class="list-group-item-text">
-                {{ post.content|markdown|striptags|slice(0, 200) }}...
+                {{ post.content|markdown|striptags|slice(0, 200) }} &hellip;
             </p>
         </a>
       {% else %}

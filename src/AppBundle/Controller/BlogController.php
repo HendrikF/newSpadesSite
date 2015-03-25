@@ -145,15 +145,7 @@ class BlogController extends Controller
      */
     public function postAction($slug)
     {
-        $post = $this->getDoctrine()
-            ->getRepository('AppBundle:Post')
-            ->createQueryBuilder('p')
-            ->select('p, t')
-            ->leftJoin('p.tags', 't')
-            ->where('p.slug = :slug')
-            ->setParameter('slug', $slug)
-            ->getQuery()
-            ->getOneOrNullResult();
+        $post = $this->getDoctrine()->getRepository('AppBundle:Post')->getPostBySlug($slug);
         
         if(!$post) {
             throw $this->createNotFoundException(
