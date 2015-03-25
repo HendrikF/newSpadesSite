@@ -1,6 +1,7 @@
 /app/*
 !/app/config
 /app/config/parameters.yml
+/app/config/config.yml
 
 !/app/Resources
 
