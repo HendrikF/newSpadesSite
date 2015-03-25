@@ -6,7 +6,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
-use Doctrine\ORM\Tools\Pagination\Paginator;
 
 use AppBundle\Entity\Post;
 
@@ -17,31 +16,21 @@ class BlogController extends Controller
      */
     public function indexAction($page)
     {
-        $pageSize = 10;
+        $repository = $this->getDoctrine()->getRepository('AppBundle:Post');
+        
         $padding = 3;
+        $pageSize = 10;
         
-        $query = $this->getDoctrine()
-            ->getRepository('AppBundle:Post')
-            ->createQueryBuilder('p')
-            ->select('p, t')
-            ->leftJoin('p.tags', 't')
-            ->orderBy('p.published', 'DESC')
-            ->getQuery();
-        
-        $posts = new Paginator($query);
-        
-        $posts->getQuery()
-            ->setFirstResult($pageSize * ($page - 1))
-            ->setMaxResults($pageSize);
-        
-        $total = count($posts);
-        $pageCount = ceil($total / $pageSize);
+        $postCount = $repository->getPostCount();
+        $pageCount = ceil($postCount / $pageSize);
         
         if($page > $pageCount) {
             throw $this->createNotFoundException(
                 'Sorry, we do not have that many posts.'
             );
         }
+        
+        $posts = $repository->getRecentPosts($page, $pageSize);
         
         $prev = ($page > 1);
         $next = ($page < $pageCount);
