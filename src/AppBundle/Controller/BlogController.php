@@ -104,39 +104,21 @@ class BlogController extends Controller
      */
     public function tagAction($title, $page)
     {
-        $pageSize = 10;
+        $repository = $this->getDoctrine()->getRepository('AppBundle:Tag');
+        
         $padding = 3;
+        $pageSize = 10;
         
-        $query = $this->getDoctrine()
-            ->getRepository('AppBundle:Post')
-            ->createQueryBuilder('p')
-            ->select('t, p')
-            ->leftJoin('p.tags', 't')
-            ->where('t.title = :title')
-            ->setParameter('title', $title)
-            ->orderBy('p.published', 'DESC')
-            ->getQuery();
-        
-        $posts = new Paginator($query);
-        
-        $posts->getQuery()
-            ->setFirstResult($pageSize * ($page - 1))
-            ->setMaxResults($pageSize);
-        
-        $total = count($posts);
-        $pageCount = ceil($total / $pageSize);
-        
-        if(!$total) {
-            throw $this->createNotFoundException(
-                'Sorry, we can not find the requested tag.'
-            );
-        }
+        $postCount = $repository->getPostCount($title);
+        $pageCount = ceil($postCount / $pageSize);
         
         if($page > $pageCount) {
             throw $this->createNotFoundException(
                 'Sorry, we do not have that many posts.'
             );
         }
+        
+        $posts = $repository->getPosts($title, $page, $pageSize);
         
         $prev = ($page > 1);
         $next = ($page < $pageCount);
