@@ -1,11 +1,21 @@
+/*
+
+!/app/
 /app/*
-!/app/config
-/app/config/parameters.yml
-/app/config/config.yml
 
-!/app/Resources
+!/app/Resources/
 
-/bin/
-/composer.phar
-/vendor/
+!/app/config/
+/app/config/*
+!/app/config/security.yml
+
+!/web/
 /web/bundles/
+/web/app.php
+/web/app_dev.php
+/web/config.php
+
+!/src/
+/src/Acme/
+
+*.htaccess
