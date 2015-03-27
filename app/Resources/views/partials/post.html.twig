@@ -1,0 +1,28 @@
+
+<article>
+    <header>
+        <h1>
+            <a href="{{ path('blog-post', {slug: post.slug}) }}" id="{{ post.slug }}">
+                {{ post.title }}
+            </a>
+        </h1>
+        <p class="blog-post-meta">
+            Published by {{ post.author.username }} on {{ post.published|date('l, jS F Y') }}
+        </p>
+    </header>
+    <main>
+        {{ post.content|markdown }}
+    </main>
+    <footer>
+        <p>
+            {% for tag in post.tags %}
+                <a href="{{ path('tag', {title: tag.title}) }}" class="label label-primary">
+                    <span class="glyphicon glyphicon-tag" aria-hidden="true"></span>
+                    {{ tag.title }}
+                </a>
+            {% else %}
+                <span class="text-muted">Not tagged.</span>
+            {% endfor %}
+        </p>
+    </footer>
+</article>

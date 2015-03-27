@@ -92,7 +92,7 @@ class BlogController extends Controller
             
             $this->addFlash(
                 'success',
-                "Changes to _{$post->getTitle()}_ have been saved."
+                "Changes to ___{$post->getTitle()}___ have been saved."
             );
             
             return $this->redirectToRoute('blog-post', array('slug' => $post->getSlug()));

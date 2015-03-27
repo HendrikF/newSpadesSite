@@ -17,30 +17,32 @@
 <![endif]-->
 
 <link href="{{ asset('css/styles.css') }}" rel="stylesheet" />
-
 <link href="{{ asset('favicon.png') }}" type="image/png" rel="icon" />
 
 </head>
 <body>
 
-<div class="headnav bg-primary">
-    <div class="container">
-        <nav>
-            <!-- Avoid inserting spaces between <a> !! -->
-            <a href="{{ path('blog') }}" {% if navi == 'blog' %} class="active" {% endif %}>Blog</a
-                ><a href="{{ path('about') }}" {% if navi == 'about' %} class="active" {% endif %}>About</a
-                ><a href="{{ path('get-it') }}" {% if navi == 'getIt' %} class="active" {% endif %}>Get It!</a
-                ><a href="{{ path('contribute') }}" {% if navi == 'contribute' %} class="active" {% endif %}>Contribute!</a>
-            
-          {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+<header class="headnav bg-primary">
+    <nav class="container">
+        <!-- Avoid inserting spaces between <a> !! -->
+        <a href="{{ path('blog') }}" {% if navi == 'blog' %} class="active" {% endif %}>Blog</a
+            ><a href="{{ path('about') }}" {% if navi == 'about' %} class="active" {% endif %}>About</a
+            ><a href="{{ path('get-it') }}" {% if navi == 'getIt' %} class="active" {% endif %}>Get It!</a
+            ><a href="{{ path('contribute') }}" {% if navi == 'contribute' %} class="active" {% endif %}>Contribute!</a>
+        
+        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
             <a href="{{ path('logout') }}" title="Logout" class="pull-right">
-                <span class="glyphicon glyphicon glyphicon-off" aria-hidden="true"></span>
+                <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
                 <span class="sr-only">Logout</span>
             </a>
-          {% endif %}
-        </nav>
-    </div>
-</div>
+        {% else %}
+            <a href="{{ path('login') }}" title="Login" class="pull-right">
+                <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                <span class="sr-only">Login</span>
+            </a>
+        {% endif %}
+    </nav>
+</header>
 
 {% block precontent %}{% endblock %}
 
@@ -48,52 +50,66 @@
     
     <div class="row">
         
-        <div class="col-md-8">
+        <section class="col-md-8">
             
-            {% for flashMessage in app.session.flashbag.get('success') %}
-                <div class="alert alert-success alert-dismissible" role="alert">
-                    <button class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    {{ flashMessage|markdown }}
-                </div>
-            {% endfor %}
-            {% for flashMessage in app.session.flashbag.get('info') %}
-                <div class="alert alert-info alert-dismissible" role="alert">
-                    <button class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    {{ flashMessage|markdown }}
-                </div>
-            {% endfor %}
-            {% for flashMessage in app.session.flashbag.get('warning') %}
-                <div class="alert alert-warning alert-dismissible" role="alert">
-                    <button class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    {{ flashMessage|markdown }}
-                </div>
-            {% endfor %}
-            {% for flashMessage in app.session.flashbag.get('danger') %}
-                <div class="alert alert-danger alert-dismissible" role="alert">
-                    <button class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    {{ flashMessage|markdown }}
-                </div>
-            {% endfor %}
+            <aside>
+                {% for flashMessage in app.session.flashbag.get('success') %}
+                    <div class="alert alert-success alert-dismissible" role="alert">
+                        <button class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        {{ flashMessage|markdown }}
+                    </div>
+                {% endfor %}
+                {% for flashMessage in app.session.flashbag.get('info') %}
+                    <div class="alert alert-info alert-dismissible" role="alert">
+                        <button class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        {{ flashMessage|markdown }}
+                    </div>
+                {% endfor %}
+                {% for flashMessage in app.session.flashbag.get('warning') %}
+                    <div class="alert alert-warning alert-dismissible" role="alert">
+                        <button class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        {{ flashMessage|markdown }}
+                    </div>
+                {% endfor %}
+                {% for flashMessage in app.session.flashbag.get('danger') %}
+                    <div class="alert alert-danger alert-dismissible" role="alert">
+                        <button class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        {{ flashMessage|markdown }}
+                    </div>
+                {% endfor %}
+            </aside>
             
-            <div class="page-header">
-                <h1>{{ title }}</h1>
-            </div>
+            <main>
             
-            {% block content %}{% endblock %}
-            
-        </div>
-        
-        <div class="col-md-4 sidebar">
-          
-          {% block sidebar %}
+                <div class="page-header">
+                    <h1>{{ title }}</h1>
+                </div>
                 
-            {{ render(controller('AppBundle:Sidebar:recentPosts')) }}
+                {% block content %}{% endblock %}
             
-            {{ render(controller('AppBundle:Sidebar:blogTags')) }}
+            </main>
+            
+        </section>
         
-          {% endblock %}
+        <section class="col-md-4">
             
-        </div>
+            {% block sidebar %}
+                
+                {{ render(controller('AppBundle:Sidebar:recentPosts')) }}
+                
+                {{ render(controller('AppBundle:Sidebar:blogTags')) }}
+                
+            {% endblock %}
+            
+        </section>
         
     </div>
     
