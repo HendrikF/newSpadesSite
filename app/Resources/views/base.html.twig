@@ -31,6 +31,13 @@
                 ><a href="{{ path('about') }}" {% if navi == 'about' %} class="active" {% endif %}>About</a
                 ><a href="{{ path('get-it') }}" {% if navi == 'getIt' %} class="active" {% endif %}>Get It!</a
                 ><a href="{{ path('contribute') }}" {% if navi == 'contribute' %} class="active" {% endif %}>Contribute!</a>
+            
+          {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            <a href="{{ path('logout') }}" title="Logout" class="pull-right">
+                <span class="glyphicon glyphicon glyphicon-off" aria-hidden="true"></span>
+                <span class="sr-only">Logout</span>
+            </a>
+          {% endif %}
         </nav>
     </div>
 </div>
@@ -43,6 +50,31 @@
         
         <div class="col-md-8">
             
+            {% for flashMessage in app.session.flashbag.get('success') %}
+                <div class="alert alert-success alert-dismissible" role="alert">
+                    <button class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    {{ flashMessage|markdown }}
+                </div>
+            {% endfor %}
+            {% for flashMessage in app.session.flashbag.get('info') %}
+                <div class="alert alert-info alert-dismissible" role="alert">
+                    <button class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    {{ flashMessage|markdown }}
+                </div>
+            {% endfor %}
+            {% for flashMessage in app.session.flashbag.get('warning') %}
+                <div class="alert alert-warning alert-dismissible" role="alert">
+                    <button class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    {{ flashMessage|markdown }}
+                </div>
+            {% endfor %}
+            {% for flashMessage in app.session.flashbag.get('danger') %}
+                <div class="alert alert-danger alert-dismissible" role="alert">
+                    <button class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    {{ flashMessage|markdown }}
+                </div>
+            {% endfor %}
+            
             <div class="page-header">
                 <h1>{{ title }}</h1>
             </div>
@@ -52,10 +84,14 @@
         </div>
         
         <div class="col-md-4 sidebar">
+          
+          {% block sidebar %}
                 
             {{ render(controller('AppBundle:Sidebar:recentPosts')) }}
             
             {{ render(controller('AppBundle:Sidebar:blogTags')) }}
+        
+          {% endblock %}
             
         </div>
         

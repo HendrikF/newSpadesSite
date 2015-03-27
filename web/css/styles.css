@@ -59,6 +59,9 @@ p.padding {
 p.bigger {
     font-size: 1.2em;
 }
-.sidebar {
+body > .container {
     margin-top: 30px;
+}
+.pointer {
+    cursor: pointer;
 }
