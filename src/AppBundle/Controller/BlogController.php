@@ -84,7 +84,7 @@ class BlogController extends Controller
         
         $form->handleRequest($request);
         
-        if ($form->isValid()) {
+        if($form->isValid()) {
             
             $em = $this->getDoctrine()->getManager();
             $em->persist($post);
@@ -96,6 +96,11 @@ class BlogController extends Controller
             );
             
             return $this->redirectToRoute('blog-post', array('slug' => $post->getSlug()));
+        } elseif($form->isSubmitted()) {
+            $this->addFlash(
+                'warning',
+                "Could not save ___{$post->getTitle()}___ due to validation errors."
+            );
         }
         
         return $this->render('default/blog-edit.html.twig', array(

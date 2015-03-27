@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="AppBundle\Entity\PostRepository")
@@ -29,11 +30,13 @@ class Post
 
     /**
      * @ORM\Column(name="title", type="text")
+     * @Assert\NotBlank()
      */
     private $title;
 
     /**
      * @ORM\Column(name="slug", type="string", unique=true)
+     * @Assert\NotBlank()
      */
     private $slug;
     
