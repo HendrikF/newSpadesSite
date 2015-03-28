@@ -40,6 +40,13 @@
     color: #999;
     font-style: italic;
 }
+.blog-post-meta > a {
+    display: none;
+}
+.blog-post-meta:hover > a {
+    display: block;
+}
+
 body {
     font-family: 'Ubuntu';
     text-align: justify;

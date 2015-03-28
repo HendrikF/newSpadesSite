@@ -59,11 +59,11 @@ class BlogController extends Controller
     public function editAction(Request $request, $slug = null)
     {
         if($slug == null) {
-            $title = 'Create blog post';
+            $title = 'Create Blog Post';
             $post = new Post();
             $post->setAuthor($this->getUser());
         } else {
-            $title = 'Edit blog post';
+            $title = 'Edit Blog Post';
             $post = $this->getDoctrine()
                 ->getRepository('AppBundle:Post')
                 ->findOneBySlug($slug);

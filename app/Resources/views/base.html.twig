@@ -30,17 +30,27 @@
             ><a href="{{ path('get-it') }}" {% if navi == 'getIt' %} class="active" {% endif %}>Get It!</a
             ><a href="{{ path('contribute') }}" {% if navi == 'contribute' %} class="active" {% endif %}>Contribute!</a>
         
-        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-            <a href="{{ path('logout') }}" title="Logout" class="pull-right">
-                <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
-                <span class="sr-only">Logout</span>
-            </a>
-        {% else %}
-            <a href="{{ path('login') }}" title="Login" class="pull-right">
-                <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-                <span class="sr-only">Login</span>
-            </a>
-        {% endif %}
+        <div class="pull-right">
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                {% spaceless %}
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <a href="{{ path('blog-edit') }}" title="Create Blog Post">
+                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                            <span class="sr-only">Create Blog Post</span>
+                        </a>
+                    {% endif %}
+                    <a href="{{ path('logout') }}" title="Logout">
+                        <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+                        <span class="sr-only">Logout</span>
+                    </a>
+                {% endspaceless %}
+            {% else %}
+                <a href="{{ path('login') }}" title="Login">
+                    <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                    <span class="sr-only">Login</span>
+                </a>
+            {% endif %}
+        </div>
     </nav>
 </header>
 
