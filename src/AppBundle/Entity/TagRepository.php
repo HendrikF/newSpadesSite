@@ -11,7 +11,7 @@ class TagRepository extends EntityRepository
         $query = $this->getEntityManager()->createQuery(
         "SELECT t.title, COUNT(p.id) AS postCount
         FROM AppBundle:Tag t
-        JOIN t.posts p
+        LEFT JOIN t.posts p
         GROUP BY t.id
         ");
         return $query->getScalarResult();
@@ -22,8 +22,8 @@ class TagRepository extends EntityRepository
         $query = $this->getEntityManager()->createQuery(
         "SELECT p, t, a
         FROM AppBundle:Post p
-        JOIN p.tags t
-        JOIN p.author a
+        LEFT JOIN p.tags t
+        LEFT JOIN p.author a
         WHERE t.title = :title
         ORDER BY p.published DESC
         ")
@@ -38,7 +38,7 @@ class TagRepository extends EntityRepository
         $query = $this->getEntityManager()->createQuery(
         "SELECT COUNT(p)
         FROM AppBundle:Tag t
-        JOIN t.posts p
+        LEFT JOIN t.posts p
         WHERE t.title = :title
         ")
         ->setParameter(':title', $title);

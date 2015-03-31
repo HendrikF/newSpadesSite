@@ -11,8 +11,8 @@ class PostRepository extends EntityRepository
         $query = $this->getEntityManager()->createQuery(
         "SELECT p, t, a
         FROM AppBundle:Post p
-        JOIN p.tags t
-        JOIN p.author a
+        LEFT JOIN p.tags t
+        LEFT JOIN p.author a
         ORDER BY p.published DESC
         ")
         ->setFirstResult($pageSize * ($page - 1))
@@ -34,8 +34,8 @@ class PostRepository extends EntityRepository
         $query = $this->getEntityManager()->createQuery(
         "SELECT p, t, a
         FROM AppBundle:Post p
-        JOIN p.tags t
-        JOIN p.author a
+        LEFT JOIN p.tags t
+        LEFT JOIN p.author a
         WHERE p.slug = :slug
         ")
         ->setParameter('slug', $slug);

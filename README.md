@@ -16,8 +16,23 @@ composer.json:
         "knplabs/knp-markdown-bundle": "~1.3",
     }
 
+    $ composer install
+
 AppKernel.php:
 
     $bundles = array(
         new Knp\Bundle\MarkdownBundle\KnpMarkdownBundle(),
     );
+
+services.yml
+
+    services:
+        app.form.type.tags:
+            class: AppBundle\Form\Type\TagsType
+            arguments: ["@doctrine.orm.entity_manager"]
+            tags:
+                - { name: form.type, alias: tags }
+        app.form.type.task:
+            class: AppBundle\Form\Type\PostType
+            tags:
+                - { name: form.type, alias: post }

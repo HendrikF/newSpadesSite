@@ -69,18 +69,12 @@ class BlogController extends Controller
                 ->findOneBySlug($slug);
             if(!$post) {
                 throw $this->createNotFoundException(
-                    'Sorry, I can not find the requested post.'
+                    'Sorry, we can not find the requested post.'
                 );
             }
         }
         
-        $form = $this->createFormBuilder($post)
-            ->add('slug', 'text', array('attr' => array('class' => 'form-control')))
-            ->add('title', 'text', array('attr' => array('class' => 'form-control')))
-            ->add('published', 'date', array('attr' => array('class' => 'form-control')))
-            ->add('content', 'textarea', array('attr' => array('class' => 'form-control', 'rows' => 25)))
-            ->add('save', 'submit', array('attr' => array('class' => 'btn btn-success'), 'label' => 'Save Post'))
-            ->getForm();
+        $form = $this->createForm('post', $post);
         
         $form->handleRequest($request);
         
