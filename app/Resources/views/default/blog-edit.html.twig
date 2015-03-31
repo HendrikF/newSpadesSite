@@ -25,3 +25,30 @@
 {{ form_end(form) }}
 
 {% endblock %}
+
+{% block javascript %}
+<script>
+$(function() {
+    tagnames = new Bloodhound({
+        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        limit: 10,
+        prefetch: {
+            url: '{{ path('blog-tags.json') }}',
+            filter: function(list) {
+                return $.map(list, function(tag) { return { name: tag }; });
+            }
+        }
+    });
+    tagnames.initialize();
+    $('input.tags-input').tagsinput({
+        typeaheadjs: {
+            name: 'tagnames',
+            displayKey: 'name',
+            valueKey: 'name',
+            source: tagnames.ttAdapter()
+        }
+    });
+});
+</script>
+{% endblock %}

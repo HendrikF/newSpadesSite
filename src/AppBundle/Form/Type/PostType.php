@@ -11,12 +11,20 @@ class PostType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('slug', 'text', array('attr' => array('class' => 'form-control')))
-            ->add('title', 'text', array('attr' => array('class' => 'form-control')))
-            ->add('published', 'date', array('attr' => array('class' => 'form-control')))
-            ->add('content', 'textarea', array('attr' => array('class' => 'form-control', 'rows' => 25)))
-            ->add('tags', 'tags', array('attr' => array('class' => 'form-control'), 'required' => false))
-            ->add('save', 'submit', array('attr' => array('class' => 'btn btn-success'), 'label' => 'Save Post'));
+            ->add('slug', 'text', array(
+                'attr' => array('class' => 'form-control')))
+            ->add('title', 'text', array(
+                'attr' => array('class' => 'form-control')))
+            ->add('published', 'date', array(
+                'attr' => array('class' => 'form-control')))
+            ->add('content', 'textarea', array(
+                'attr' => array('class' => 'form-control', 'rows' => 25)))
+            ->add('tags', 'tags', array(
+                'attr' => array('class' => 'form-control tags-input'),
+                'required' => false))
+            ->add('save', 'submit', array(
+                'attr' => array('class' => 'btn btn-success'),
+                'label' => 'Save Post'));
     }
     
     public function setDefaultOptions(OptionsResolverInterface $resolver)

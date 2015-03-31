@@ -18,7 +18,7 @@ class SidebarController extends Controller
     
     public function blogTagsAction()
     {
-        $tags = $this->getDoctrine()->getRepository('AppBundle:Tag')->getTags();
+        $tags = $this->getDoctrine()->getRepository('AppBundle:Tag')->getTagsWithPostCount();
         
         return $this->render('sidebar/blogTags.html.twig', array(
             'tags' => $tags

@@ -6,6 +6,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 use AppBundle\Entity\Post;
 
@@ -51,6 +52,15 @@ class BlogController extends Controller
             'page' => $page,
             'pages' => $pages
         ));
+    }
+    /**
+     * @Route("/blog")
+     * @Route("/blog/")
+     */
+    public function blogAction()
+    {
+        # Moved Permanently
+        return $this->redirectToRoute('blog', array(), 301);
     }
     /**
      * @Route("/blog/edit/{slug}", name="blog-edit")
@@ -162,5 +172,16 @@ class BlogController extends Controller
             'navi' => 'blog',
             'post' => $post
         ));
+    }
+    /**
+     * @Route("/tags.json", name="blog-tags.json")
+     */
+    public function tagsAction()
+    {
+        $tags = $this->getDoctrine()->getRepository('AppBundle:Tag')->getTags();
+        $tags = array_map(function($tag) {
+            return $tag['title'];
+        }, $tags);
+        return new Response(json_encode($tags));
     }
 }
