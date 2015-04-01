@@ -114,6 +114,69 @@ class BlogController extends Controller
         ));
     }
     /**
+     * @Route("/blog/{slug}", name="blog-post")
+     */
+    public function postAction($slug)
+    {
+        $post = $this->getDoctrine()->getRepository('AppBundle:Post')->getPostBySlug($slug);
+        
+        if(!$post) {
+            throw $this->createNotFoundException(
+                'Sorry, we can not find the requested post.'
+            );
+        }
+        
+        return $this->render('default/post.html.twig', array(
+            'title' => $post->getTitle(),
+            'navi' => 'blog',
+            'post' => $post
+        ));
+    }
+    /**
+     * @Route("/tag/edit/{title}", name="tag-edit")
+     * @Security("has_role('ROLE_ADMIN')")
+     */
+    public function tagEditAction(Request $request, $title)
+    {
+        $tag = $this->getDoctrine()
+            ->getRepository('AppBundle:Tag')
+            ->getTag($title);
+        if(!$tag) {
+            throw $this->createNotFoundException(
+                'Sorry, we can not find the requested tag.'
+            );
+        }
+        
+        $form = $this->createForm('tag', $tag);
+        
+        $form->handleRequest($request);
+        
+        if($form->isValid()) {
+            
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($tag);
+            $em->flush();
+            
+            $this->addFlash(
+                'success',
+                "Changes to ___{$tag->getTitle()}___ have been saved."
+            );
+            
+            return $this->redirectToRoute('tag', array('title' => $tag->getTitle()));
+        } elseif($form->isSubmitted()) {
+            $this->addFlash(
+                'warning',
+                "Could not save ___{$tag->getTitle()}___ due to validation errors."
+            );
+        }
+        
+        return $this->render('default/tag-edit.html.twig', array(
+            'title' => 'Edit Tag',
+            'navi' => 'blog',
+            'form' => $form->createView()
+        ));
+    }
+    /**
      * @Route("/tag/{title}/{page}", name="tag", defaults={"page" = 1}, requirements={"page": "\d+"})
      */
     public function tagAction($title, $page)
@@ -132,6 +195,8 @@ class BlogController extends Controller
             );
         }
         
+        $tag = $repository->getTag($title);
+        
         $posts = $repository->getPosts($title, $page, $pageSize);
         
         $prev = ($page > 1);
@@ -144,33 +209,16 @@ class BlogController extends Controller
             }
         }
         
-        return $this->render('default/posts.html.twig', array(
+        return $this->render('default/tag.html.twig', array(
             'title' => $title,
             'navi' => 'blog',
+            'tag' => $tag,
+            'postCount' => $postCount,
             'posts' => $posts,
             'prev' => $prev,
             'next' => $next,
             'page' => $page,
             'pages' => $pages
-        ));
-    }
-    /**
-     * @Route("/blog/{slug}", name="blog-post")
-     */
-    public function postAction($slug)
-    {
-        $post = $this->getDoctrine()->getRepository('AppBundle:Post')->getPostBySlug($slug);
-        
-        if(!$post) {
-            throw $this->createNotFoundException(
-                'Sorry, we can not find the requested post.'
-            );
-        }
-        
-        return $this->render('default/post.html.twig', array(
-            'title' => $post->getTitle(),
-            'navi' => 'blog',
-            'post' => $post
         ));
     }
     /**

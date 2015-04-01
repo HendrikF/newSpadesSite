@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="AppBundle\Entity\TagRepository")
@@ -19,6 +20,7 @@ class Tag
 
     /**
      * @ORM\Column(name="title", type="string", unique=true)
+     * @Assert\NotBlank()
      */
     private $title;
     

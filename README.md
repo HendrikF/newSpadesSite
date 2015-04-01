@@ -1,4 +1,4 @@
-# newSpadesSite
+# NewSpadesSite
 
 This will be the developer blog with integrated user platform of newSpades.
 
@@ -24,7 +24,7 @@ AppKernel.php:
         new Knp\Bundle\MarkdownBundle\KnpMarkdownBundle(),
     );
 
-services.yml
+services.yml:
 
     services:
         app.form.type.tags:
@@ -32,7 +32,11 @@ services.yml
             arguments: ["@doctrine.orm.entity_manager"]
             tags:
                 - { name: form.type, alias: tags }
-        app.form.type.task:
+        app.form.type.post:
             class: AppBundle\Form\Type\PostType
             tags:
                 - { name: form.type, alias: post }
+        app.form.type.tag:
+            class: AppBundle\Form\Type\TagType
+            tags:
+                - { name: form.type, alias: tag }

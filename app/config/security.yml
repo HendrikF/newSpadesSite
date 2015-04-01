@@ -45,7 +45,6 @@ security:
                 target: blog
             
             anonymous: ~
-            http_basic: ~
             form_login:
                 login_path: login
                 check_path: login-check

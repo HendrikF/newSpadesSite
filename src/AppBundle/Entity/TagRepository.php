@@ -11,6 +11,7 @@ class TagRepository extends EntityRepository
         $query = $this->getEntityManager()->createQuery(
         "SELECT t.title
         FROM AppBundle:Tag t
+        ORDER BY t.title ASC
         ");
         return $query->getArrayResult();
     }
@@ -22,6 +23,7 @@ class TagRepository extends EntityRepository
         FROM AppBundle:Tag t
         LEFT JOIN t.posts p
         GROUP BY t.id
+        ORDER BY postCount DESC, t.title ASC
         ");
         return $query->getScalarResult();
     }
@@ -52,5 +54,16 @@ class TagRepository extends EntityRepository
         ")
         ->setParameter(':title', $title);
         return $query->getSingleScalarResult();
+    }
+    
+    public function getTag($title)
+    {
+        $query = $this->getEntityManager()->createQuery(
+        "SELECT t
+        FROM AppBundle:Tag t
+        WHERE t.title = :title
+        ")
+        ->setParameter(':title', $title);
+        return $query->getOneOrNullResult();
     }
 }

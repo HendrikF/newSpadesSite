@@ -36,14 +36,14 @@
     border-left: 5px solid transparent;
 }
 
-.blog-post-meta {
+.blog-meta {
     color: #999;
     font-style: italic;
 }
-.blog-post-meta > a {
+.blog-meta > a {
     display: none;
 }
-.blog-post-meta:hover > a {
+.blog-meta:hover > a {
     display: block;
 }
 
@@ -71,4 +71,10 @@ body > .container {
 }
 .input-group-addon {
     cursor: pointer;
+}
+.post-tag {
+    margin-right: 5px;
+}
+.post-tag:last-child {
+    margin-right: 0;
 }

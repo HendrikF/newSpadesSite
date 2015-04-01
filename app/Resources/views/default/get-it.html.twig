@@ -2,10 +2,18 @@
 
 {% block content %}
 
+<div class="alert alert-warning alert-dismissible" role="alert">
+    <button class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <p>Keep in mind, that this is in <strong>pre-alpha state</strong>.<br />
+        It&rsquo;s mostly interesting for developers and not very playable!</p>
+</div>
+
 <div class="row">
     <div class="col-sm-6 col-md-4">
         <div class="thumbnail">
-            <img src="{{ asset('images/player.png') }}" alt="Our player model">
+            <img src="{{ asset('images/player.png') }}" alt="The player model">
             <div class="caption">
                 <h2>Client</h2>
                 <p>With the client you can enjoy playing on a server. It comes with a nice launcher, which simplifies connecting. Additionally it supports many command line options.</p>
