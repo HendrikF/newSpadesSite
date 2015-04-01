@@ -5,6 +5,11 @@ security:
     encoders:
         AppBundle\Entity\User:
             algorithm: bcrypt
+        #    algorithm:            pbkdf2
+        #    hash_algorithm:       sha512
+        #    encode_as_base64:     true
+        #    iterations:           1300
+        #    key_length:           50
 
     # http://symfony.com/doc/current/book/security.html#hierarchical-roles
     role_hierarchy:
@@ -29,12 +34,21 @@ security:
     firewalls:
         # disables authentication for assets and the profiler, adapt it according to your needs
         dev:
-            pattern:  ^/(_(profiler|wdt)|css|images|js)/
+            pattern:  ^/(_(profiler|wdt))/
             security: false
         
         default:
+            access_denied_url: access-denied
+            
+            logout:
+                path:   logout
+                target: blog
+            
             anonymous: ~
-            http_basic: ~
+            form_login:
+                login_path: login
+                check_path: login-check
+                csrf_provider: form.csrf_provider
         
         # the login page has to be accessible for everybody
         #demo_login:

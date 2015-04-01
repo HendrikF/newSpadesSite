@@ -36,10 +36,17 @@
     border-left: 5px solid transparent;
 }
 
-.blog-post-meta {
+.blog-meta {
     color: #999;
     font-style: italic;
 }
+.blog-meta > a {
+    display: none;
+}
+.blog-meta:hover > a {
+    display: block;
+}
+
 body {
     font-family: 'Ubuntu';
     text-align: justify;
@@ -59,6 +66,15 @@ p.padding {
 p.bigger {
     font-size: 1.2em;
 }
-.sidebar {
+body > .container {
     margin-top: 30px;
+}
+.input-group-addon {
+    cursor: pointer;
+}
+.post-tag {
+    margin-right: 5px;
+}
+.post-tag:last-child {
+    margin-right: 0;
 }

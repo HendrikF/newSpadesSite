@@ -16,24 +16,46 @@
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 
-<link href="{{ asset('css/styles.css') }}" rel="stylesheet" />
+<!-- Bootstrap Tags Input -->
+<link href="{{ asset('css/bootstrap-tagsinput.css') }}" rel="stylesheet" />
 
+<link href="{{ asset('css/styles.css') }}" rel="stylesheet" />
 <link href="{{ asset('favicon.png') }}" type="image/png" rel="icon" />
 
 </head>
 <body>
 
-<div class="headnav bg-primary">
-    <div class="container">
-        <nav>
-            <!-- Avoid inserting spaces between <a> !! -->
-            <a href="{{ path('blog') }}" {% if navi == 'blog' %} class="active" {% endif %}>Blog</a
-                ><a href="{{ path('about') }}" {% if navi == 'about' %} class="active" {% endif %}>About</a
-                ><a href="{{ path('get-it') }}" {% if navi == 'getIt' %} class="active" {% endif %}>Get It!</a
-                ><a href="{{ path('contribute') }}" {% if navi == 'contribute' %} class="active" {% endif %}>Contribute!</a>
-        </nav>
-    </div>
-</div>
+<header class="headnav bg-primary">
+    <nav class="container">
+        <!-- Avoid inserting spaces between <a> !! -->
+        <a href="{{ path('blog') }}" {% if navi == 'blog' %} class="active" {% endif %}>Blog</a
+            ><a href="{{ path('about') }}" {% if navi == 'about' %} class="active" {% endif %}>About</a
+            ><a href="{{ path('get-it') }}" {% if navi == 'getIt' %} class="active" {% endif %}>Get It!</a
+            ><a href="{{ path('contribute') }}" {% if navi == 'contribute' %} class="active" {% endif %}>Contribute!</a>
+        
+        <div class="pull-right">
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                {% spaceless %}
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <a href="{{ path('blog-edit') }}" title="Create Blog Post">
+                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                            <span class="sr-only">Create Blog Post</span>
+                        </a>
+                    {% endif %}
+                    <a href="{{ path('logout') }}" title="Logout">
+                        <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+                        <span class="sr-only">Logout</span>
+                    </a>
+                {% endspaceless %}
+            {% else %}
+                <a href="{{ path('login') }}" title="Login">
+                    <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                    <span class="sr-only">Login</span>
+                </a>
+            {% endif %}
+        </div>
+    </nav>
+</header>
 
 {% block precontent %}{% endblock %}
 
@@ -41,23 +63,68 @@
     
     <div class="row">
         
-        <div class="col-md-8">
+        <section class="col-md-8">
             
-            <div class="page-header">
-                <h1>{{ title }}</h1>
-            </div>
+            <aside>
+                {% for flashMessage in app.session.flashbag.get('success') %}
+                    <div class="alert alert-success alert-dismissible" role="alert">
+                        <button class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        {{ flashMessage|markdown }}
+                    </div>
+                {% endfor %}
+                {% for flashMessage in app.session.flashbag.get('info') %}
+                    <div class="alert alert-info alert-dismissible" role="alert">
+                        <button class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        {{ flashMessage|markdown }}
+                    </div>
+                {% endfor %}
+                {% for flashMessage in app.session.flashbag.get('warning') %}
+                    <div class="alert alert-warning alert-dismissible" role="alert">
+                        <button class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        {{ flashMessage|markdown }}
+                    </div>
+                {% endfor %}
+                {% for flashMessage in app.session.flashbag.get('danger') %}
+                    <div class="alert alert-danger alert-dismissible" role="alert">
+                        <button class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        {{ flashMessage|markdown }}
+                    </div>
+                {% endfor %}
+            </aside>
             
-            {% block content %}{% endblock %}
-            
-        </div>
-        
-        <div class="col-md-4 sidebar">
+            <main>
                 
-            {{ render(controller('AppBundle:Sidebar:recentPosts')) }}
+                {% block pageHeader %}
+                    <div class="page-header">
+                        <h1>{{ title }}</h1>
+                    </div>
+                {% endblock %}
+                
+                {% block content %}{% endblock %}
+                
+            </main>
             
-            {{ render(controller('AppBundle:Sidebar:blogTags')) }}
+        </section>
+        
+        <section class="col-md-4">
             
-        </div>
+            {% block sidebar %}
+                
+                {{ render(controller('AppBundle:Sidebar:recentPosts')) }}
+                
+                {{ render(controller('AppBundle:Sidebar:blogTags')) }}
+                
+            {% endblock %}
+            
+        </section>
         
     </div>
     
@@ -65,5 +132,8 @@
 
 <script src="{{ asset('js/jquery-1.11.2.min.js') }}"></script>
 <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+<script src="{{ asset('js/bootstrap-tagsinput.min.js') }}"></script>
+<script src="{{ asset('js/typeahead.js') }}"></script>
+{% block javascript %}{% endblock %}
 </body>
 </html>
