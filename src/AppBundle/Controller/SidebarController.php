@@ -11,7 +11,7 @@ class SidebarController extends Controller
     {
         $posts = $this->getDoctrine()->getRepository('AppBundle:Post')->getRecentPosts();
         
-        return $this->render('sidebar/recentPosts.html.twig', array(
+        return $this->render('AppBundle:sidebar:recentPosts.html.twig', array(
             'posts' => $posts
         ));
     }
@@ -20,7 +20,7 @@ class SidebarController extends Controller
     {
         $tags = $this->getDoctrine()->getRepository('AppBundle:Tag')->getTagsWithPostCount();
         
-        return $this->render('sidebar/blogTags.html.twig', array(
+        return $this->render('AppBundle:sidebar:blogTags.html.twig', array(
             'tags' => $tags
         ));
     }

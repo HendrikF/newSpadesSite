@@ -12,7 +12,7 @@ class StaticController extends Controller
      */
     public function aboutAction()
     {
-        return $this->render('default/about.html.twig', array(
+        return $this->render('AppBundle:default:about.html.twig', array(
             'title' => 'About',
             'navi' => 'about'
         ));
@@ -23,7 +23,7 @@ class StaticController extends Controller
      */
     public function getItAction()
     {
-        return $this->render('default/get-it.html.twig', array(
+        return $this->render('AppBundle:default:get-it.html.twig', array(
             'title' => 'Get It!',
             'navi' => 'getIt'
         ));
@@ -34,7 +34,7 @@ class StaticController extends Controller
      */
     public function contributeAction()
     {
-        return $this->render('default/contribute.html.twig', array(
+        return $this->render('AppBundle:default:contribute.html.twig', array(
             'title' => 'Contribute!',
             'navi' => 'contribute'
         ));

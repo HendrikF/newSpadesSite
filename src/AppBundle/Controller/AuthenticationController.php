@@ -21,7 +21,7 @@ class AuthenticationController extends Controller
         }
         $username = $request->getSession()->get(SecurityContext::LAST_USERNAME);
         
-        return $this->render('authentication/login.html.twig', array(
+        return $this->render('AppBundle:authentication:login.html.twig', array(
             'title' => 'Login',
             'navi' => '',
             'username' => $username,
@@ -50,7 +50,7 @@ class AuthenticationController extends Controller
      */
     public function accessDeniedAction()
     {
-        return $this->render('authentication/access-denied.html.twig', array(
+        return $this->render('AppBundle:authentication:access-denied.html.twig', array(
             'title' => 'Access Denied',
             'navi' => ''
         ));

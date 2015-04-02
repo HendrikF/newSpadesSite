@@ -1,9 +1,9 @@
-{% extends 'base.html.twig' %}
+{% extends 'AppBundle::base.html.twig' %}
 
 {% block content %}
 
   {% for post in posts %}
-    {% include 'partials/post.html.twig' with {post: post} only %}
+    {% include 'AppBundle:partials:post.html.twig' with {post: post} only %}
     <hr />
   {% else %}
     <div class="alert alert-info"><em>There are no posts to display.</em></div>

@@ -43,7 +43,7 @@ class BlogController extends Controller
             }
         }
         
-        return $this->render('default/home.html.twig', array(
+        return $this->render('AppBundle:default:home.html.twig', array(
             'title' => 'Blog',
             'navi' => 'blog',
             'posts' => $posts,
@@ -107,7 +107,7 @@ class BlogController extends Controller
             );
         }
         
-        return $this->render('default/blog-edit.html.twig', array(
+        return $this->render('AppBundle:default:blog-edit.html.twig', array(
             'title' => $title,
             'navi' => 'blog',
             'form' => $form->createView()
@@ -126,7 +126,7 @@ class BlogController extends Controller
             );
         }
         
-        return $this->render('default/post.html.twig', array(
+        return $this->render('AppBundle:default:post.html.twig', array(
             'title' => $post->getTitle(),
             'navi' => 'blog',
             'post' => $post
@@ -170,7 +170,7 @@ class BlogController extends Controller
             );
         }
         
-        return $this->render('default/tag-edit.html.twig', array(
+        return $this->render('AppBundle:default:tag-edit.html.twig', array(
             'title' => 'Edit Tag',
             'navi' => 'blog',
             'form' => $form->createView()
@@ -209,7 +209,7 @@ class BlogController extends Controller
             }
         }
         
-        return $this->render('default/tag.html.twig', array(
+        return $this->render('AppBundle:default:tag.html.twig', array(
             'title' => $title,
             'navi' => 'blog',
             'tag' => $tag,
