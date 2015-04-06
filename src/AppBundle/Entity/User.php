@@ -5,6 +5,8 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
+use Doctrine\Common\Collections\ArrayCollection;
+
 /**
  * @ORM\Table(name="user")
  * @ORM\Entity(repositoryClass="AppBundle\Entity\UserRepository")
@@ -27,6 +29,11 @@ class User implements UserInterface, \Serializable
      * @ORM\Column(type="string")
      */
     private $password;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $salt;
 
     /**
      * @ORM\Column(type="string")
@@ -56,9 +63,6 @@ class User implements UserInterface, \Serializable
     public function __construct()
     {
         $this->isActive = true;
-        // may not be needed, see section on salt below
-        // $this->salt = md5(uniqid(null, true));
-        
         $this->roles = new ArrayCollection();
     }
 
@@ -75,9 +79,17 @@ class User implements UserInterface, \Serializable
      */
     public function getSalt()
     {
-        // you *may* need a real salt depending on your encoder
-        // see section on salt below
-        return null;
+        return $this->salt;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function setSalt($salt)
+    {
+        $this->salt = $salt;
+        
+        return $this;
     }
 
     /**

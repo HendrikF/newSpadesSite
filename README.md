@@ -40,3 +40,7 @@ services.yml:
             class: AppBundle\Form\Type\TagType
             tags:
                 - { name: form.type, alias: tag }
+        app.form.type.user:
+            class: AppBundle\Form\Type\UserType
+            tags:
+                - { name: form.type, alias: user }
