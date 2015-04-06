@@ -15,7 +15,10 @@ class TagType extends AbstractType
                 'attr' => array('class' => 'form-control')))
             ->add('save', 'submit', array(
                 'attr' => array('class' => 'btn btn-success'),
-                'label' => 'Save Tag'));
+                'label' => 'Save Tag'))
+            ->add('delete', 'submit', array(
+                'attr' => array('class' => 'btn btn-danger pull-right btn-xs'),
+                'label' => 'Delete Tag'));
     }
     
     public function setDefaultOptions(OptionsResolverInterface $resolver)

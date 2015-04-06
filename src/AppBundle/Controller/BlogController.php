@@ -151,23 +151,40 @@ class BlogController extends Controller
         
         $form->handleRequest($request);
         
-        if($form->isValid()) {
+        if($form->get('save')->isClicked()) {
+            
+            if($form->isValid()) {
+                
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($tag);
+                $em->flush();
+                
+                $this->addFlash(
+                    'success',
+                    "Changes to ___{$tag->getTitle()}___ have been saved."
+                );
+                
+                return $this->redirectToRoute('tag', array('title' => $tag->getTitle()));
+            } elseif($form->isSubmitted()) {
+                $this->addFlash(
+                    'warning',
+                    "Could not save ___{$tag->getTitle()}___ due to validation errors."
+                );
+            }
+            
+        } elseif($form->get('delete')->isClicked()) {
             
             $em = $this->getDoctrine()->getManager();
-            $em->persist($tag);
+            $em->remove($tag);
             $em->flush();
             
             $this->addFlash(
                 'success',
-                "Changes to ___{$tag->getTitle()}___ have been saved."
+                "Deleted ___{$tag->getTitle()}___."
             );
             
-            return $this->redirectToRoute('tag', array('title' => $tag->getTitle()));
-        } elseif($form->isSubmitted()) {
-            $this->addFlash(
-                'warning',
-                "Could not save ___{$tag->getTitle()}___ due to validation errors."
-            );
+            return $this->redirectToRoute('blog');
+            
         }
         
         return $this->render('AppBundle:default:tag-edit.html.twig', array(
