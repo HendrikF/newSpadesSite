@@ -22,6 +22,8 @@ class PostType extends AbstractType
             ->add('tags', 'tags', array(
                 'attr' => array('class' => 'form-control tags-input'),
                 'required' => false))
+            ->add('hidden', 'checkbox', array(
+                'required' => false))
             ->add('save', 'submit', array(
                 'attr' => array('class' => 'btn btn-success'),
                 'label' => 'Save Post'));

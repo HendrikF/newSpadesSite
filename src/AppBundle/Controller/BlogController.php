@@ -31,7 +31,8 @@ class BlogController extends Controller
             );
         }
         
-        $posts = $repository->getRecentPosts($page, $pageSize);
+        $showHidden = $this->get('security.authorization_checker')->isGranted('ROLE_ADMIN');
+        $posts = $repository->getRecentPosts($page, $pageSize, $showHidden);
         
         $prev = ($page > 1);
         $next = ($page < $pageCount);

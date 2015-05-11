@@ -2,6 +2,10 @@
     <header>
         <h1>
             <a href="{{ path('blog-post', {slug: post.slug}) }}" id="{{ post.slug }}">
+                {% if post.hidden %}
+                    <span class="glyphicon glyphicon-eye-close" aria-hidden="true" style="float:right;"></span>
+                    <span class="sr-only">Hidden: </span>
+                {% endif %}
                 {{ post.title }}
             </a>
         </h1>

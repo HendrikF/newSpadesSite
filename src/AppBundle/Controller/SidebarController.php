@@ -9,7 +9,8 @@ class SidebarController extends Controller
 {
     public function recentPostsAction()
     {
-        $posts = $this->getDoctrine()->getRepository('AppBundle:Post')->getRecentPosts();
+        $showHidden = $this->get('security.authorization_checker')->isGranted('ROLE_ADMIN');
+        $posts = $this->getDoctrine()->getRepository('AppBundle:Post')->getRecentPosts(1, 10, $showHidden);
         
         return $this->render('AppBundle:sidebar:recentPosts.html.twig', array(
             'posts' => $posts

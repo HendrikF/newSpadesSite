@@ -41,6 +41,11 @@ class Post
      * @Assert\NotBlank()
      */
     private $slug;
+
+    /**
+     * @ORM\Column(name="hidden", type="boolean")
+     */
+    private $hidden;
     
     /**
      * @ORM\ManyToOne(targetEntity="User", inversedBy="posts")
@@ -220,5 +225,28 @@ class Post
     public function getAuthor()
     {
         return $this->author;
+    }
+
+    /**
+     * Set hidden
+     *
+     * @param boolean $hidden
+     * @return Post
+     */
+    public function setHidden($hidden)
+    {
+        $this->hidden = $hidden;
+
+        return $this;
+    }
+
+    /**
+     * Get hidden
+     *
+     * @return boolean 
+     */
+    public function getHidden()
+    {
+        return $this->hidden;
     }
 }
