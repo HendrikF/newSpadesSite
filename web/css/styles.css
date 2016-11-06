@@ -3,50 +3,6 @@
     src: local('Ubuntu'), url(../fonts/Ubuntu-regular.woff) format('woff');
 }
 
-/* Head Navigation */
-.headnav {
-    /* bg: bg-primary */
-    -webkit-box-shadow: inset 0 -2px 5px rgba(0,0,0,.1);
-            box-shadow: inset 0 -2px 5px rgba(0,0,0,.1);
-}
-.headnav a {
-    position: relative;
-    display: inline-block;
-    padding: 10px;
-    color: #cdddeb;
-}
-.headnav a:hover,
-.headnav a:focus,
-.headnav a.active {
-    color: #fff;
-    text-decoration: none;
-    background-color: #4a93d2;
-}
-.headnav a.active:after {
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    width: 0;
-    height: 0;
-    margin-left: -5px;
-    vertical-align: middle;
-    content: " ";
-    border-right: 5px solid transparent;
-    border-bottom: 5px solid;
-    border-left: 5px solid transparent;
-}
-
-.blog-meta {
-    color: #999;
-    font-style: italic;
-}
-.blog-meta > a {
-    display: none;
-}
-.blog-meta:hover > a {
-    display: block;
-}
-
 body {
     font-family: 'Ubuntu';
     text-align: justify;
@@ -68,13 +24,4 @@ p.bigger {
 }
 body > .container {
     margin-top: 30px;
-}
-.input-group-addon {
-    cursor: pointer;
-}
-.post-tag {
-    margin-right: 5px;
-}
-.post-tag:last-child {
-    margin-right: 0;
 }
